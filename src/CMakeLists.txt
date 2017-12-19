@@ -99,6 +99,12 @@ set ( libfluidsynth_SOURCES
     midi/fluid_seq.c
 )
 
+if ( APPLE )
+    list ( APPEND libfluidsynth_SOURCES
+        utils/apple/timing_mach.c
+    )
+endif( APPLE )
+
 # note: by default this target creates a shared object (or dll). To build a
 # static library instead, set the option BUILD_SHARED_LIBS to FALSE.
 add_library ( libfluidsynth
