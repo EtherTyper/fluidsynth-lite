@@ -18,8 +18,10 @@
  * 02110-1301, USA
  */
 
-#ifdef _WIN32
+#if defined(_WIN32)
 #include <io.h>
+#elif defined(__APPLE__)
+#include "apple/timing_mach.h"
 #endif
 
 #include "fluid_sys.h"
