@@ -32,13 +32,6 @@ matrix:
             - g++-7
           sources: *sources
     - os: linux
-      env: CC=gcc-8 CXX=g++-8
-      addons:
-        apt:
-          packages:
-            - g++-8
-          sources: *sources
-    - os: linux
       env: CC=clang-3.8 CXX=clang++-3.8
       addons:
         apt:
@@ -54,6 +47,12 @@ matrix:
           sources:
             - llvm-toolchain-precise-3.5
             - ubuntu-toolchain-r-test
+    - os: osx
+      osx_image: xcode8
+      compiler: gcc
+    - os: osx
+      osx_image: xcode8
+      compiler: clang
 
 install: true
 
