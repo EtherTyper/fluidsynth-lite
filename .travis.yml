@@ -2,15 +2,6 @@ language: generic
 matrix:
   include:
     - os: linux
-      env: CC=gcc-4.4 CXX=g++-4.4
-      addons:
-        apt:
-          packages:
-            - g++-4.4
-          sources: &sources
-            - llvm-toolchain-precise-3.8
-            - ubuntu-toolchain-r-test
-    - os: linux
       env: CC=gcc-5 CXX=g++-5
       addons:
         apt:
