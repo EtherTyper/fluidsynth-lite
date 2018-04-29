@@ -230,18 +230,18 @@ fluid_win32_mutex_init(PHANDLE m)
 }
 
 /* Regular mutex */
-typedef CRITICAL_SECTION fluid_mutex_t;
-#define fluid_mutex_init(_m)      InitializeCriticalSection(&(_m))
-#define fluid_mutex_destroy(_m)   DeleteCriticalSection(&(_m))
-#define fluid_mutex_lock(_m)      EnterCriticalSection(&(_m))
-#define fluid_mutex_unlock(_m)    LeaveCriticalSection(&(_m))
+typedef SRWLOCK fluid_mutex_t;
+#define fluid_mutex_init(_m)      InitializeSRWLock(&(_m))
+#define fluid_mutex_destroy(_m)
+#define fluid_mutex_lock(_m)      AcquireSRWLockExclusive(&(_m))
+#define fluid_mutex_unlock(_m)    ReleaseSRWLockExclusive(&(_m))
 
 /* Recursive lock capable mutex */
-typedef HANDLE fluid_rec_mutex_t;
-#define fluid_rec_mutex_init(_m)      fluid_win32_mutex_init(&(_m))
-#define fluid_rec_mutex_destroy(_m)   CloseHandle(_m)
-#define fluid_rec_mutex_lock(_m)      WaitForSingleObject(_m, INFINITE)
-#define fluid_rec_mutex_unlock(_m)    ReleaseMutex(_m)
+typedef SRWLOCK fluid_rec_mutex_t;
+#define fluid_rec_mutex_init(_m)      InitializeSRWLock(&(_m))
+#define fluid_rec_mutex_destroy(_m)
+#define fluid_rec_mutex_lock(_m)      AcquireSRWLockShared(&(_m))
+#define fluid_rec_mutex_unlock(_m)    ReleaseSRWLockShared(&(_m))
 
 /* Dynamically allocated mutex suitable for fluid_cond_t use */
 typedef CRITICAL_SECTION fluid_cond_mutex_t;

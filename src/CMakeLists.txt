@@ -33,12 +33,6 @@ include_directories (
 
 # ************ library ************
 
-if ( MSVC )
-    set ( config_SOURCES
-          ${config_SOURCES}
-          ${CMAKE_CURRENT_BINARY_DIR}/config_win32.h )
-endif ( MSVC )
-
 set ( libfluidsynth_SOURCES
     utils/fluid_conv.c
     utils/fluid_conv.h

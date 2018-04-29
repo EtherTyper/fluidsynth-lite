@@ -257,10 +257,13 @@ configure_file ( ${CMAKE_CURRENT_SOURCE_DIR}/src/config.cmake
                  ${CMAKE_CURRENT_BINARY_DIR}/config.h )
 add_definitions ( -DHAVE_CONFIG_H )
 
+set ( config_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/config.h )
+
 # Extra configuration file for MS VisualC compiler
 if ( MSVC )
   configure_file ( ${CMAKE_CURRENT_SOURCE_DIR}/src/config_win32.cmake
                    ${CMAKE_CURRENT_BINARY_DIR}/config_win32.h )
+  set ( config_SOURCES ${config_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/config_win32.h )
 endif ( MSVC )
 
 # Add public headers
@@ -287,8 +290,6 @@ set ( public_HEADERS
 set ( public_main_HEADER
     ${CMAKE_CURRENT_SOURCE_DIR}/include/fluidsynth.h
 )
-
-set ( config_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/config.h )
 
 # Process subdirectories
 add_subdirectory ( src )
