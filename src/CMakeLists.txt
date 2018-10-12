@@ -150,3 +150,7 @@ target_link_libraries ( libfluidsynth
     ${WINDOWS_LIBS}
     ${LIBFLUID_LIBS}
 )
+
+install(TARGETS libfluidsynth
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib)
