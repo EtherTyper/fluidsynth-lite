@@ -33,4 +33,5 @@ conf_data.set10('WORDS_BIGENDIAN',  target_machine.endian() == 'big')
 
 configure_file(configuration : conf_data, input : 'src/config.meson.in', output : 'config.h')
 
+subdir('include/fluidsynth')
 subdir('src')
