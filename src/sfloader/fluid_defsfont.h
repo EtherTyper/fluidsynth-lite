@@ -232,7 +232,7 @@ int gen_validp (int gen);
    File structures and routines (used to be in sffile.h)
 */
 
-#define CHNKIDSTR(id)           &idlist[(id - 1) * 4]
+#define CHNKIDSTR(id)           &idlist.c[(id - 1) * 4]
 
 /* sfont file chunk sizes */
 #define SFPHDRSIZE	38
@@ -287,9 +287,6 @@ typedef struct _SFShdr {
     unsigned short sampletype;		/* 1 mono,2 right,4 left,linked 8,0x8000=ROM */
 }
 SFShdr;
-
-/* data */
-extern char idlist[];
 
 /* functions */
 SFData *sfload_file (const char * fname);
