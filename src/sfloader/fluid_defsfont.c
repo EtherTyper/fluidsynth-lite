@@ -2017,20 +2017,40 @@ static int fixup_pgen(SFData *sf);
 static int fixup_igen(SFData *sf);
 static int fixup_sample(SFData *sf);
 
-char idlist[] = {"RIFFLISTsfbkINFOsdtapdtaifilisngINAMiromiverICRDIENGIPRD"
-                 "ICOPICMTISFTsnamsmplphdrpbagpmodpgeninstibagimodigenshdr"
-                };
+/*
+ * This declares a char array containing the SF2 chunk identifiers. This
+ * array is being accessed like an uint32 below to simplify id comparison.
+ * To make sure it is suitably aligned for uint32 access, we must wrap it
+ * inside a union along with a uint32 telling the compiler to align it
+ * for integer access and avoiding undefined behaviour.
+ * This basically is the C89 equivalent to what is written in C11 as:
+ * alignas(uint32_t) static const char idlist[] = {};
+ *
+ * See: EXP36-C. Do not cast pointers into more strictly aligned pointer
+ * types - SEI CERT C Coding Standard
+ */
+static const union fluid_idlist
+{
+    /*
+     * Cannot be char c[ ], because in C89, arrays wraped in unions
+     * must have a fixed size. Otherwise the size of the union would depend
+     * on the initialization of its first member, which results in
+     * different sizes for different instances of the same union type.
+     */
+    char c[116];
+    uint32_t i;
+} idlist = {"RIFFLISTsfbkINFOsdtapdtaifilisngINAMiromiverICRDIENGIPRD"
+            "ICOPICMTISFTsnamsmplphdrpbagpmodpgeninstibagimodigenshdrsm24"
+           };
 
 static unsigned int sdtachunk_size;
 
 /* sound font file load functions */
-static int chunkid(unsigned int id)
+static int chunkid(uint32_t id)
 {
     unsigned int i;
-    unsigned int *p;
-
-    p = (unsigned int *)&idlist;
-    for (i = 0; i < sizeof(idlist) / sizeof(int); i++, p += 1)
+    const uint32_t *p = &idlist.i;
+    for (i = 0; i < sizeof(idlist) / sizeof(idlist.i); i++, p += 1)
         if (*p == id)
             return (i + 1);
 
@@ -2269,7 +2289,7 @@ static int pdtahelper(unsigned int expid, unsigned int reclen, SFChunk *chunk,
                       int *size, FILE *fd)
 {
     unsigned int id;
-    char *expstr;
+    const char *expstr;
 
     expstr = CHNKIDSTR(expid); /* in case we need it */
 
