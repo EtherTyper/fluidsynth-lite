@@ -1336,7 +1336,7 @@ fluid_synth_sysex_midi_tuning (fluid_synth_t *synth, const char *data, int len,
             *resptr++ = bank;
 
         *resptr++ = prog;
-        FLUID_STRNCPY (resptr, name, 16);
+        FLUID_MEMCPY (resptr, name, 16);
         resptr += 16;
 
         for (i = 0; i < 128; i++) {
