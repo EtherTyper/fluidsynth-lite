@@ -1140,7 +1140,6 @@ _fluid_seq_queue_slide(fluid_sequencer_t* seq)
     short i;
     fluid_evt_entry* next;
     fluid_evt_entry* tmp;
-    int count = 0;
 
     /* do the slide */
     seq->queue0StartTime += 256;
@@ -1158,7 +1157,6 @@ _fluid_seq_queue_slide(fluid_sequencer_t* seq)
             _fluid_seq_queue_insert_queue0(seq, tmp, delay);
         }
         tmp = next;
-        count++;
     }
 
     /* slide all queue1[i] into queue1[i-1] */
@@ -1171,7 +1169,6 @@ _fluid_seq_queue_slide(fluid_sequencer_t* seq)
 
 
     /* append queueLater to queue1[254] */
-    count = 0;
     tmp = seq->queueLater;
     while (tmp) {
         unsigned int delay = tmp->evt.time - seq->queue0StartTime;
@@ -1185,7 +1182,6 @@ _fluid_seq_queue_slide(fluid_sequencer_t* seq)
         /* append it */
         _fluid_seq_queue_insert_queue1(seq, tmp, 254);
         tmp = next;
-        count++;
     }
 
     seq->queueLater = tmp;
